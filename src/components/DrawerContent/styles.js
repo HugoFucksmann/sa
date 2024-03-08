@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   closeSesionText: {
-    fontFamily: 'Roboto_700Bold',
+    fontFamily: 'Roboto-Bold',
     color: THEME.colors.blue,
   },
   powerBy: {

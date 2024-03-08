@@ -28,7 +28,7 @@ const auth = initializeAuth(app, {
 export const signInWithEmailAndPass = async (email, password) => {
   try {
     const user = await signInWithEmailAndPassword(email, password);
-    console.log('user___ ', user);
+
     return user;
   } catch (error) {
     throw error;

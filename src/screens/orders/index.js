@@ -91,7 +91,7 @@ const Orders = ({navigation, route}) => {
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
             onPress={() =>
-              navigation.navigate('PartnerShops', {
+              navigation.navigate('CreateOrder', {
                 id,
                 details,
               })

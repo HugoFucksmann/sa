@@ -32,7 +32,6 @@ export const AppContextProvider = ({children}) => {
   }
 
   useEffect(() => {
-    console.log('onAuthStateChanged');
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -47,8 +46,7 @@ export const AppContextProvider = ({children}) => {
     }),
     [user, register, dataUser],
   );
-  console.log('register___ ', register);
-  console.log('user___ ', user);
+
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };
 

@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import useAppContext from '../../context/useAppContext';
-import {getAllShops} from '../../services/index';
+import {getAllShops, getPartnerShops} from '../../services/index';
 import styles from './styles';
 import freemonicircle from '../../../assets/freemoni-circle.png';
+import {useQuery} from 'react-query';
 
 const RenderItem = ({item, onRedirectEnterAmount}) => (
   <TouchableWithoutFeedback onPress={() => onRedirectEnterAmount(item)}>
@@ -34,10 +35,16 @@ const RenderItem = ({item, onRedirectEnterAmount}) => (
 
 const PartnerShops = ({route, navigation}) => {
   const {user} = useAppContext();
-  const {balance} = route.params;
-  const [partnerShops, setPartnerShops] = useState([]);
+  const {balance, id, details} = route.params;
+  const [partnerShopss, setPartnerShops] = useState([]);
   const [shopsReady, setShopsReady] = useState(false);
 
+  const {data: partnerShops} = useQuery(
+    ['partnerShops', details.shopId],
+    () => getPartnerShops(user, details.shopId),
+    {enabled: !!user},
+  );
+  console.log('partnerShops ', partnerShops);
   const getShops = async () => {
     try {
       let result = await getAllShops(user);

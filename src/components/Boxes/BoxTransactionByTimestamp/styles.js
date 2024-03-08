@@ -1,13 +1,13 @@
-import { StyleSheet, Dimensions } from "react-native";
-import THEME from "../../../utils/constants/theme";
+import {StyleSheet, Dimensions} from 'react-native';
+import THEME from '../../../utils/constants/theme';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: THEME.colors.white,
-    width: Dimensions.get("window").width * 0.97,
+    width: Dimensions.get('window').width * 0.97,
     borderRadius: 15,
     paddingVertical: 10,
     marginVertical: 20,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -20,20 +20,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingHorizontal: 15,
     fontSize: 15,
     color: THEME.colors.lightblue,
-    fontFamily: "Roboto_500Medium",
+    fontFamily: 'Roboto-Medium',
   },
   containerWalletItem: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
 
   containerWalletItemTitle: {
-    width: "60%",
+    width: '60%',
   },
   containerWalletItemTitleText: {
     fontFamily: THEME.fontFamily.mainBold,
@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   containerWalletItemAccountText: {
-    fontFamily: "Roboto_500Medium",
+    fontFamily: 'Roboto-Medium',
     color: THEME.colors.darkgray,
-    textAlign: "right",
+    textAlign: 'right',
   },
   containerWalletItemAccount: {
-    width: "40%",
+    width: '40%',
   },
   containerFooter: {
     paddingTop: 10,
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
   },
   footerText: {
-    textAlign: "center",
-    fontFamily: "Roboto_500Medium",
+    textAlign: 'center',
+    fontFamily: 'Roboto-Medium',
     color: THEME.colors.lightblue,
     fontSize: 15,
   },

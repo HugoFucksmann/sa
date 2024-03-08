@@ -20,10 +20,10 @@ const THEME = {
     description: 10,
   },
   fontFamily: {
-    mainRegular: 'NotoSans_400Regular',
-    mainBold: 'NotoSans_700Bold',
-    secondaryRegular: 'Roboto_400Regular',
-    secondaryBold: 'Roboto_700Bold',
+    mainRegular: 'NotoSansDisplay-Regular',
+    mainBold: 'NotoSansDisplay-Bold',
+    secondaryRegular: 'Roboto-Regular',
+    secondaryBold: 'Roboto-Bold',
   },
   width: {
     default: Dimensions.get('window').width * 0.95,

@@ -21,8 +21,11 @@ import Transactions from '../../screens/transactions';
 import ScanQrReceive from '../../screens/scanQrReceive';
 import ScannedQrReceive from '../../screens/scannedQrReceive';
 import ScanQrSendFreemoni from '../../screens/scanQrSendFreemoni';
+import BusinessList from '../../screens/BusinessList';
+import InfoBusiness from '../../screens/infoBusiness';
 // import Cronipesos from "../../screens/cronipesos";
 // import Modal from "../../components/Modal";
+
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -132,7 +135,7 @@ const HomeStack = () => {
           }}
         />
         <Stack.Screen
-          name="PartnerShops"
+          name="PartnerShops2"
           component={PartnerShops}
           options={{
             title: 'Negocios cercanos',
@@ -149,10 +152,44 @@ const HomeStack = () => {
           }}
         />
         <Stack.Screen
+          name="PartnerShops"
+          component={BusinessList}
+          options={{
+            title: 'Negocios cercanos',
+            header: ({navigation, route, options}) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <HeaderDefault
+                  title={title}
+                  style={options.headerStyle}
+                  navigation={navigation}
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
           name="CreateOrder"
-          component={CreateOrder}
+          component={PartnerShops}
           options={{
             title: 'Crear orden',
+            header: ({navigation, route, options}) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <HeaderDefault
+                  title={title}
+                  style={options.headerStyle}
+                  navigation={navigation}
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
+          name="InfoBusiness"
+          component={InfoBusiness}
+          options={{
+            title: 'Detalles del negocio',
             header: ({navigation, route, options}) => {
               const title = getHeaderTitle(options, route.name);
               return (

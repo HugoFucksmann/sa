@@ -1,13 +1,13 @@
-import { StyleSheet, Dimensions } from "react-native";
-import THEME from "../../../utils/constants/theme";
+import {StyleSheet, Dimensions} from 'react-native';
+import THEME from '../../../utils/constants/theme';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: THEME.colors.white,
-    width: Dimensions.get("window").width * 0.9,
+    width: Dimensions.get('window').width * 0.9,
     borderRadius: 15,
     paddingVertical: 10,
     marginTop: 20,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -21,41 +21,41 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingHorizontal: 15,
     fontSize: 15,
     color: THEME.colors.lightblue,
-    fontFamily: "Roboto_500Medium",
+    fontFamily: 'Roboto-Medium',
   },
   containerWalletItem: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
   },
   containerWalletItemImg: {
-    width: "20%",
-    alignItems: "center",
+    width: '20%',
+    alignItems: 'center',
   },
   containerWalletItemTitle: {
-    width: "50%",
+    width: '50%',
   },
   containerWalletItemTitleText: {
-    fontFamily: "NotoSans_400Regular",
+    fontFamily: 'NotoSansDisplay-Regular',
     color: THEME.colors.darkgray,
     paddingLeft: 5,
   },
   containerWalletItemAccountText: {
-    fontFamily: "Roboto_500Medium",
+    fontFamily: 'Roboto-Medium',
     color: THEME.colors.darkgray,
-    textAlign: "right",
+    textAlign: 'right',
   },
   containerWalletItemTitleTextEnabled: {
-    fontFamily: "Roboto_500Medium",
+    fontFamily: 'Roboto-Medium',
     color: THEME.colors.darkgray,
     fontSize: 11,
     paddingLeft: 5,
   },
   containerWalletItemAccount: {
-    width: "30%",
+    width: '30%',
   },
   containerFooter: {
     paddingTop: 10,
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
   },
   footerText: {
-    textAlign: "center",
-    fontFamily: "Roboto_500Medium",
+    textAlign: 'center',
+    fontFamily: 'Roboto-Medium',
     color: THEME.colors.lightblue,
     fontSize: 15,
   },
