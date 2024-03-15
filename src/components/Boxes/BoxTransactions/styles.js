@@ -20,11 +20,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   title: {
-    textAlign: 'left',
+    textAlign: 'center',
     paddingTop: 20,
     fontSize: 20,
     color: THEME.colors.lightblue,
     fontFamily: 'Roboto-Medium',
+    fontWeight: 'bold',
   },
   containerWalletItemImg: {
     width: '20%',
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Medium',
     color: THEME.colors.blue,
     textAlign: 'right',
+    fontWeight: 'bold',
   },
   containerWalletItemAccount: {
     flexDirection: 'row',
