@@ -8,27 +8,25 @@ import {
 import React from "react";
 import useAppContext from "../../context/useAppContext";
 import { useQuery } from "react-query";
-import {
-  getAuthAccounts,
-  validateDestinatary,
-} from "../../services";
+import { getAuthAccounts, validateDestinatary } from "../../services";
 import styles from "./styles";
 import freemonicircle from "../../../assets/freemoni-circle.png";
 import FooterFixed from "../../components/FooterFixed";
 import Button from "../../components/Button";
+import parseAmounts from "../../utils/functions/parseAmounts";
+import freemonipesos from "../../../assets/freemoni-pesos.png";
 const SelectOriginAccount = ({ route, navigation }) => {
+  const { data } = route.params;
   const { dataUser } = useAppContext();
   const { data: authAccounts, refetch: refetchAuthAccounts } = useQuery(
-    ["authAccounts", user],
-    () => getAuthAccounts(user, dataUser.userId),
+    ["authAccounts", dataUser],
+    () => getAuthAccounts(dataUser.userId),
     { enabled: !!dataUser }
   );
-  const { data } = route.params;
   
   const onValidateDestinatary = async (item) => {
     try {
       const validation = await validateDestinatary(
-        user,
         item.accountId,
         dataUser.userId,
         data.userData.id
@@ -75,7 +73,11 @@ const SelectOriginAccount = ({ route, navigation }) => {
                     </View>
                     <View style={styles.authAccountsBalance}>
                       <Text style={{ textAlign: "right" }}>
-                        {item.availableBalance}
+                        <Image
+                          source={freemonipesos}
+                          style={{ width: 15, height: 15 }}
+                        />{" "}
+                        {parseAmounts(item.availableBalance.toFixed(2))}
                       </Text>
                     </View>
                   </View>

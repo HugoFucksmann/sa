@@ -15,63 +15,48 @@ import {useQuery} from 'react-query';
 
 const RenderItem = ({item, onRedirectEnterAmount}) => (
   <TouchableWithoutFeedback onPress={() => onRedirectEnterAmount(item)}>
-    <View
-      style={{
-        ...styles.renderItemContainer,
-        height: 100,
-        width: '50%',
-        marginVertical: 10,
-      }}>
+    <View style={styles.renderItemContainer}>
       <Image
-        source={item.photoUrl ? {uri: item.photoUrl} : freemonicircle}
-        style={{resizeMode: 'contain', height: '50%', width: '80%'}}
+        source={item.imgUrl ? {uri: item.imgUrl} : freemonicircle}
+        style={styles.image}
       />
-      <Text style={{...styles.textItem, fontSize: 18, marginTop: 5}}>
-        {item.displayName}
-      </Text>
+      <Text style={styles.textItem}>{item.displayName}</Text>
     </View>
   </TouchableWithoutFeedback>
 );
 
 const PartnerShops = ({route, navigation}) => {
+  console.log('PartnerShops_____');
   const {user} = useAppContext();
-  const {balance, id, details} = route.params;
-  const [partnerShopss, setPartnerShops] = useState([]);
-  const [shopsReady, setShopsReady] = useState(false);
+  const {id, details} = route.params;
+  const d = route.params;
 
   const {data: partnerShops} = useQuery(
-    ['partnerShops', details.shopId],
-    () => getPartnerShops(user, details.shopId),
+    ['user', user],
+    async () => {
+      try {
+        const result = await getAllShops(user);
+        return result;
+      } catch (error) {
+        throw new Error('Error fetching shops: ' + error.message);
+      }
+    },
     {enabled: !!user},
   );
-  console.log('partnerShops ', partnerShops);
-  const getShops = async () => {
-    try {
-      let result = await getAllShops(user);
-      setPartnerShops(result);
-      setShopsReady(true);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  /*  console.log(' partnerShops__ ', partnerShops); */
   const onRedirectEnterAmount = destinatary => {
     navigation.navigate('CreateOrder', {
-      balance,
-      //  accountFromId: id,
+      details,
+      accountFromId: id,
       destinatary,
     });
   };
 
-  useEffect(() => {
-    getShops();
-  }, []);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Selecciona el negocio</Text>
-      {shopsReady ? (
-        partnerShops?.length > 0 && (
+      {partnerShops?.length > 0 && (
+        <View>
           <FlatList
             data={partnerShops}
             renderItem={({item}) => (
@@ -81,11 +66,9 @@ const PartnerShops = ({route, navigation}) => {
               />
             )}
             keyExtractor={item => item.accountId}
-            numColumns={2}
+            horizontal={true}
           />
-        )
-      ) : (
-        <ActivityIndicator size="large" color="#213257" />
+        </View>
       )}
     </View>
   );

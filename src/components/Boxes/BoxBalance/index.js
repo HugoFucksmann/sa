@@ -15,7 +15,7 @@ const BoxBalance = ({
   partnerShops,
 }) => {
   const {dataUser} = useAppContext();
-
+  console.log('dataUser ', dataUser);
   return (
     <View style={styles.container}>
       <View style={styles.containerTitle}>
@@ -40,7 +40,7 @@ const BoxBalance = ({
           }}
         />
         <Text style={styles.accountBalance}>
-          {balance && parseAmounts(balance)}
+          {balance && parseAmounts(balance.toFixed(2))}
         </Text>
         <View style={styles.eye}>
           <Ionicons name="eye-outline" size={28} color={THEME.colors.blue} />
@@ -76,19 +76,21 @@ const BoxBalance = ({
             <Text style={styles.textButtons}>Historial</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate(partnerShops, {balance})}>
-          <View style={{alignItems: 'center'}}>
-            <View style={styles.containerButtonAlt}>
-              <Ionicons
-                name="location-outline"
-                size={28}
-                color={THEME.colors.lightblue}
-              />
+        {partnerShops && (
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('AllBusiness')}>
+            <View style={{alignItems: 'center'}}>
+              <View style={styles.containerButtonAlt}>
+                <Ionicons
+                  name="location-outline"
+                  size={28}
+                  color={THEME.colors.lightblue}
+                />
+              </View>
+              <Text style={styles.textButtons}>Negocios</Text>
             </View>
-            <Text style={styles.textButtons}>Negocios</Text>
-          </View>
-        </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
+        )}
       </View>
     </View>
   );

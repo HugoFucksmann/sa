@@ -14,14 +14,17 @@ import freemonicircle from '../../../assets/freemoni-circle.png';
 import freemonipesos from '../../../assets/freemoni-pesos.png';
 import parseAmounts from '../../utils/functions/parseAmounts';
 import FooterFixed from '../../components/FooterFixed';
+import {useRefreshOnFocus} from '../../hooks/useRefreshOnFocus';
 const Orders = ({navigation, route}) => {
   const {user, dataUser} = useAppContext();
   const {id, details} = route.params;
-  const {data: dataOrdersByAccount} = useQuery(
+  const {data: dataOrdersByAccount, refetch: refetchDataOrders} = useQuery(
     ['dataOrdersByAccount', id],
-    () => getOrdersByAccount(user, id),
+    () => getOrdersByAccount(id),
     {enabled: !!user},
   );
+
+  useRefreshOnFocus(refetchDataOrders);
 
   return (
     <View style={{flex: 1}}>
@@ -44,7 +47,7 @@ const Orders = ({navigation, route}) => {
                     source={freemonipesos}
                     style={{width: 20, height: 20}}
                   />
-                  {parseAmounts(details?.totalBalance)}
+                  {parseAmounts(details?.totalBalance.toFixed(2))}
                 </Text>
               </View>
             </View>
@@ -52,6 +55,11 @@ const Orders = ({navigation, route}) => {
               <Text style={styles.paymentCode}>CÓDIGOS DE PAGO</Text>
             </View>
           </View>
+          {dataOrdersByAccount?.length <= 0 && (
+            <View style={{paddingVertical: 10}}>
+              <Text>No hay códigos de pago.</Text>
+            </View>
+          )}
           <View style={styles.ordersContainer}>
             {dataOrdersByAccount?.length > 0 &&
               dataOrdersByAccount.map((item, idx) => (
@@ -69,7 +77,13 @@ const Orders = ({navigation, route}) => {
                   }>
                   <View style={styles.orderItemContainer}>
                     <Text>{item.orderCode}</Text>
-                    <Text>{item.amount}</Text>
+                    <Text>
+                      <Image
+                        source={freemonipesos}
+                        style={{width: 13, height: 13}}
+                      />{' '}
+                      {item?.amount?.toFixed(2)}
+                    </Text>
                   </View>
                 </TouchableWithoutFeedback>
               ))}
@@ -91,7 +105,7 @@ const Orders = ({navigation, route}) => {
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
             onPress={() =>
-              navigation.navigate('CreateOrder', {
+              navigation.navigate('PartnerShops', {
                 id,
                 details,
               })

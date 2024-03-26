@@ -1,27 +1,27 @@
-import { Dimensions } from "react-native";
-import { StyleSheet } from "react-native";
-import THEME from "../../utils/constants/theme";
+import {Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
+import THEME from '../../utils/constants/theme';
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   avatarContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: 10,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
   },
   nameText: {
     fontSize: 20,
     fontFamily: THEME.fontFamily.mainBold,
     color: THEME.colors.blackCronica,
-    textAlign: "center",
+    textAlign: 'center',
   },
   notEnabledBusiness: {
     fontFamily: THEME.fontFamily.mainBold,
     color: THEME.colors.red,
-    textAlign: "center",
+    textAlign: 'center',
   },
   availableText: {
     fontSize: 11,
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     color: THEME.colors.blackCronica,
   },
   businessContainer: {
-    width: Dimensions.get("window").width * 0.97,
+    width: Dimensions.get('window').width * 0.97,
   },
   paymentCodeContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: THEME.colors.lightgray,
@@ -48,33 +48,33 @@ const styles = StyleSheet.create({
     fontFamily: THEME.fontFamily.mainBold,
   },
   balanceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     //borderTopWidth: 1,
     //borderBottomWidth: 1,
     //paddingVertical:3,
     //borderColor: THEME.colors.lightgray
   },
   ordersContainer: {
-    width: "100%",
+    width: '100%',
   },
   orderItemContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
   orderDataContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   orderCode: {
     fontFamily: THEME.fontFamily.secondaryBold,
     fontSize: 28,
     color: THEME.colors.blue,
-    paddingVertical: 15,
+    paddingTop: 20,
     paddingHorizontal: 20,
   },
   amount: {
@@ -89,7 +89,26 @@ const styles = StyleSheet.create({
     color: THEME.colors.blue,
   },
   containerQR: {
-    alignItems: "center",
+    alignItems: 'center',
+  },
+  btnReturnContainer: {
+    marginTop: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    backgroundColor: THEME.colors.blue,
+    borderRadius: 5,
+  },
+  btnReturnContainerDelete: {
+    marginTop: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    backgroundColor: THEME.colors.red,
+    borderRadius: 5,
+  },
+  btnReturn: {
+    color: THEME.colors.white,
+    fontFamily: THEME.fontFamily.secondaryRegular,
+    fontSize: THEME.fontSize.subheading,
   },
 });
 export default styles;

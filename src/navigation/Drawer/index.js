@@ -21,9 +21,7 @@ const MyDrawer = () => {
 
   return (
     <Drawer.Navigator
-      //useLegacyImplementation={true}
       initialRouteName="Home"
-      drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: THEME.colors.blue,
         drawerActiveTintColor: THEME.colors.white,
@@ -37,7 +35,8 @@ const MyDrawer = () => {
           fontSize: THEME.fontSize.subheading,
         },
         headerShown: false,
-      }}>
+      }}
+      drawerContent={props => <CustomDrawerContent {...props} />}>
       {dataUser?.shopsIOwn?.length > 0 && (
         <Drawer.Screen
           name="My Business"
@@ -78,16 +77,16 @@ const MyDrawer = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Freemoni"
         component={ProfileStack}
         options={{
-          title: 'Recibir Freemoni',
-          drawerIcon: ({focused, size}) => (
+          title: "Recibir Freemoni",
+          drawerIcon: ({ focused, size }) => (
             <Ionicon name="scan-outline" size={28} color={THEME.colors.white} />
           ),
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

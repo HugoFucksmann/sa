@@ -1,16 +1,16 @@
-import { Dimensions } from "react-native";
-import { StyleSheet } from "react-native";
-import THEME from "../../utils/constants/theme";
+import {Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
+import THEME from '../../utils/constants/theme';
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   avatarContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: 10,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   balanceText: {
     fontSize: 26,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   notEnabledBusiness: {
     fontFamily: THEME.fontFamily.mainBold,
     color: THEME.colors.red,
-    textAlign: "center",
+    textAlign: 'center',
   },
   availableText: {
     fontSize: 11,
@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
     color: THEME.colors.blackCronica,
   },
   businessContainer: {
-    width: Dimensions.get("window").width * 0.97,
+    width: Dimensions.get('window').width * 0.97,
   },
   paymentCodeContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: THEME.colors.lightgray,
@@ -47,27 +47,27 @@ const styles = StyleSheet.create({
     fontFamily: THEME.fontFamily.mainBold,
   },
   balanceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     //borderTopWidth: 1,
     //borderBottomWidth: 1,
     //paddingVertical:3,
     //borderColor: THEME.colors.lightgray
   },
   ordersContainer: {
-    width: "100%",
+    width: '100%',
   },
   orderItemContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
   containerFooterButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     borderTopColor: THEME.colors.lightgray,
     borderTopWidth: 1,
     paddingTop: 10,

@@ -1,8 +1,7 @@
-import auth from "@react-native-firebase/auth";
-import BASE_URL, { CRONICA_ID } from "../utils/constants/baseUrl";
-import { getIdToken } from "firebase/auth";
+import auth from '@react-native-firebase/auth';
+import BASE_URL, {CRONICA_ID} from '../utils/constants/baseUrl';
 
-export const createUserFreemoniDb = async (dataUser) => {
+export const createUserFreemoniDb = async dataUser => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
@@ -10,10 +9,10 @@ export const createUserFreemoniDb = async (dataUser) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-        method: "post",
+        method: 'post',
         body: JSON.stringify({
           dni: dataUser.dni,
           email: dataUser.email,
@@ -22,7 +21,7 @@ export const createUserFreemoniDb = async (dataUser) => {
           password: dataUser.password,
           acceptTermsCond: true,
         }),
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -31,27 +30,49 @@ export const createUserFreemoniDb = async (dataUser) => {
   }
 };
 
-export const createUserSocialAuthFreemoniDb = async (dataUser) => {
+export const createUserFreemoniDDBB = async dataUser => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/v1/users/newconsumer`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+      body: JSON.stringify({
+        confirmEmail: dataUser.email,
+        email: dataUser.email,
+        displayName: dataUser.name + dataUser.lastname,
+        password: dataUser.password,
+        confirmPassword: dataUser.password,
+        acceptTermsCond: true,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createUserSocialAuthFreemoniDb = async dataUser => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
-      `${BASE_URL}/api/v1/users/newconsumerfromsocialnetapps`,
+      `${BASE_URL}/api/v1/users/newconsumerfromsocialnet`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
         },
-        method: "post",
+        method: 'post',
         body: JSON.stringify({
           email: dataUser.email,
           displayName: dataUser.displayName,
           isNewUser: true,
           userId: dataUser.uid,
           acceptTermsCond: true,
-          notificationReadingDate: "",
+          notificationReadingDate: '',
         }),
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -60,13 +81,13 @@ export const createUserSocialAuthFreemoniDb = async (dataUser) => {
   }
 };
 
-export const getWalletAccounts = async (user) => {
+export const getWalletAccounts = async () => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/users/walletaccounts`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await res.json();
@@ -76,17 +97,17 @@ export const getWalletAccounts = async (user) => {
   }
 };
 
-export const getAuthAccounts = async (user, userId) => {
+export const getAuthAccounts = async userId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v2/accounts/authaccounts/${userId}?onlyEnabledAccounts=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -95,17 +116,17 @@ export const getAuthAccounts = async (user, userId) => {
   }
 };
 
-export const getAccountsByUser = async (user, userId, destinationUserId) => {
+export const getAccountsByUser = async (userId, destinationUserId) => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v3/accounts/byuser/${userId}?destinationUserId=${destinationUserId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -115,25 +136,24 @@ export const getAccountsByUser = async (user, userId, destinationUserId) => {
 };
 
 export const validateDestinatary = async (
-  user,
   accountFromId,
   userFromId,
-  userToId
+  userToId,
 ) => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v1/orders/validatedestinatary?accountFromId=${accountFromId}&userFromId=${userFromId}&userToId=${userToId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     if (res.status >= 400) {
-      throw { data };
+      throw {data};
     }
     return data;
   } catch (error) {
@@ -141,16 +161,16 @@ export const validateDestinatary = async (
   }
 };
 
-export const createInmediateOrder = async (user, body) => {
+export const createInmediateOrder = async body => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/orders/createinmediateorder`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "post",
-      body: JSON.stringify({ ...body }),
+      method: 'post',
+      body: JSON.stringify({...body}),
     });
     const data = await res.json();
     return data;
@@ -159,20 +179,20 @@ export const createInmediateOrder = async (user, body) => {
   }
 };
 
-export const checkIfUserExist = async (user, body) => {
+export const checkIfUserExist = async body => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/users/checkifuserexist`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "post",
-      body: JSON.stringify({ ...body }),
+      method: 'post',
+      body: JSON.stringify({...body}),
     });
     const data = await res.json();
     if (res.status >= 400) {
-      throw { data };
+      throw {data};
     }
     return data;
   } catch (error) {
@@ -180,17 +200,17 @@ export const checkIfUserExist = async (user, body) => {
   }
 };
 
-export const getAuthorizedWallets = async (user, dataUser) => {
+export const getAuthorizedWallets = async dataUser => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v1/users/${dataUser.userId}/authorized_wallets`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -199,13 +219,13 @@ export const getAuthorizedWallets = async (user, dataUser) => {
   }
 };
 
-export const getDataUser = async (user) => {
+export const getDataUser = async user => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/users/${user.uid}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await res.json();
@@ -223,12 +243,12 @@ export const updateNotifications = async () => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-        method: "patch",
+        method: 'patch',
         body: JSON.stringify({}),
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -237,18 +257,18 @@ export const updateNotifications = async () => {
   }
 };
 
-export const getAccountData = async (dataUser) => {
+export const getAccountData = async dataUser => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
-      `${BASE_URL}/api/v3/accounts/byuser/${dataUser.userId}?destinationShopId=${dataUser.shopsWhereIHaveAccount[0]}`,
+      `${BASE_URL}/api/v3/accounts/byuser/${dataUser.userId}?destinationShopId=${dataUser?.shopsWhereIHaveAccount[0]}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -266,10 +286,10 @@ export const getNotifications = async () => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -278,7 +298,7 @@ export const getNotifications = async () => {
   }
 };
 
-export const getMoreNotifications = async (lastId) => {
+export const getMoreNotifications = async lastId => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
@@ -286,10 +306,10 @@ export const getMoreNotifications = async (lastId) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -298,17 +318,17 @@ export const getMoreNotifications = async (lastId) => {
   }
 };
 
-export const getTransactionsByShop = async (user, shopId) => {
+export const getTransactionsByShop = async shopId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v2/transactions/byshop/${shopId}?limit=15`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -316,17 +336,17 @@ export const getTransactionsByShop = async (user, shopId) => {
     throw error;
   }
 };
-export const getOrdersByAccount = async (user, accountId) => {
+export const getOrdersByAccount = async accountId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v1/orders/byaccount/${accountId}?state=1`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -335,17 +355,17 @@ export const getOrdersByAccount = async (user, accountId) => {
   }
 };
 
-export const getTransactionsByUser = async (user, userId, accountId) => {
+export const getTransactionsByUser = async (userId, accountId) => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v2/transactions/byuser/${userId}?accountId=${accountId}&limit=15`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -354,34 +374,59 @@ export const getTransactionsByUser = async (user, userId, accountId) => {
   }
 };
 
-export const getTransactionsByTimestamp = async (user, userId) => {
+export const getTransactionsByTimestamp = async userId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const date = Date.now();
     const res = await fetch(
-      `${BASE_URL}/api/v2/transactions/byuser/${userId}?dateFrom=${date - 86400000
+      `${BASE_URL}/api/v2/transactions/byuser/${userId}?dateFrom=${
+        date - 86400000
       }&dateTo=${date}&onlyPersonalAccounts=true`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
+    console.log(data);
     return data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getOrder = async (user, orderId) => {
+export const getTransactionsByTimestampBusiness = async userId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
+    const date = Date.now();
+    const res = await fetch(
+      `${BASE_URL}/api/v2/transactions/byuser/${userId}?dateFrom=${
+        date - 86400000
+      }&dateTo=${date}&onlySharedAccounts=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getOrder = async orderId => {
+  try {
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/orders/${orderId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await res.json();
@@ -391,36 +436,59 @@ export const getOrder = async (user, orderId) => {
   }
 };
 
-export const getPartnerShops = async (user, shopId) => {
+export const signInFreemoni = async dataUser => {
   try {
-    const token = await getIdToken(user);
+    const res = await fetch(`${BASE_URL}/api/v1/users/signin`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+      body: JSON.stringify({
+        email: dataUser.email,
+        password: dataUser.password,
+      }),
+    });
+    const data = await res.json();
+    if (res.status >= 400) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPartnerShops = async shopId => {
+  try {
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v1/shops/getpartnershops/${shopId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
+    console.log('data', data);
     return data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getAllShops = async (user) => {
+export const getAllShops = async () => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(
       `${BASE_URL}/api/v1/shops/shopsgeolocation?latitude=27.7834&limit=50&longitude=64.2642&radius=1000000&unit=km`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -429,16 +497,16 @@ export const getAllShops = async (user) => {
   }
 };
 
-export const createOrderSchedule = async (user, body) => {
+export const createOrderSchedule = async body => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/orders/createscheduledorder`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "post",
-      body: JSON.stringify(body)
+      method: 'post',
+      body: JSON.stringify(body),
     });
     const data = await res.json();
     return data;
@@ -450,7 +518,7 @@ export const createOrderSchedule = async (user, body) => {
 export const getMoreTransactionsByUser = async (
   dataUser,
   dataAccount,
-  trxId
+  trxId,
 ) => {
   try {
     const token = await auth().currentUser.getIdToken();
@@ -459,10 +527,10 @@ export const getMoreTransactionsByUser = async (
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -479,10 +547,10 @@ export const getSalePoints = async () => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -499,10 +567,10 @@ export const getAllCouponsAvailable = async () => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -511,7 +579,7 @@ export const getAllCouponsAvailable = async () => {
   }
 };
 
-export const getCouponsAvailable = async (posId) => {
+export const getCouponsAvailable = async posId => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
@@ -519,10 +587,10 @@ export const getCouponsAvailable = async (posId) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -530,7 +598,7 @@ export const getCouponsAvailable = async (posId) => {
     throw error;
   }
 };
-export const getGenerateCodeCoupon = async (posId) => {
+export const getGenerateCodeCoupon = async posId => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
@@ -538,12 +606,12 @@ export const getGenerateCodeCoupon = async (posId) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-        method: "post",
+        method: 'post',
         body: JSON.stringify({}),
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -552,7 +620,7 @@ export const getGenerateCodeCoupon = async (posId) => {
   }
 };
 
-export const getUserCoupon = async (trxId) => {
+export const getUserCoupon = async trxId => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(
@@ -560,10 +628,10 @@ export const getUserCoupon = async (trxId) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          appname: "club-cronica-app",
+          'Content-Type': 'application/json',
+          appname: 'club-cronica-app',
         },
-      }
+      },
     );
     const data = await res.json();
     return data;
@@ -572,16 +640,16 @@ export const getUserCoupon = async (trxId) => {
   }
 };
 
-export const setDni = async (dni) => {
+export const setDni = async dni => {
   try {
     const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/users/setdni`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        appname: "club-cronica-app",
+        'Content-Type': 'application/json',
+        appname: 'club-cronica-app',
       },
-      method: "post",
+      method: 'post',
       body: JSON.stringify({
         dni,
       }),
@@ -593,13 +661,13 @@ export const setDni = async (dni) => {
   }
 };
 
-export const getDataSender = async (user, userId) => {
+export const getDataSender = async userId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const data = await res.json();
@@ -608,20 +676,35 @@ export const getDataSender = async (user, userId) => {
     throw error;
   }
 };
-export const executeOrder = async (user, orderId) => {
+export const executeOrder = async orderId => {
   try {
-    const token = await getIdToken(user);
+    const token = await auth().currentUser.getIdToken();
     const res = await fetch(`${BASE_URL}/api/v1/orders/execute`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "post",
-      body: JSON.stringify({ orderId }),
+      method: 'post',
+      body: JSON.stringify({orderId}),
     });
     const data = await res.json();
     return data;
   } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteOrder = async orderId => {
+  try {
+    const token = await auth().currentUser.getIdToken();
+    const res = await fetch(`${BASE_URL}/api/v1/orders/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'delete',
+    });
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 };

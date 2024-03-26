@@ -6,10 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import {
-  getAccountsByUser,
-  validateDestinatary,
-} from "../../services";
+import { getAccountsByUser, validateDestinatary } from "../../services";
 import useAppContext from "../../context/useAppContext";
 import { useQuery } from "react-query";
 import styles from "./styles";
@@ -17,6 +14,8 @@ import Button from "../../components/Button";
 import FooterFixed from "../../components/FooterFixed";
 import PopUp from "../../components/PopUp";
 import AlertStatus from "../../components/Alert/AlertStatus";
+import parseAmounts from "../../utils/functions/parseAmounts";
+import freemonipesos from "../../../assets/freemoni-pesos.png";
 const SelectOriginAccountWallet = ({ navigation, route }) => {
   const { data } = route.params;
   const { dataUser } = useAppContext();
@@ -25,14 +24,13 @@ const SelectOriginAccountWallet = ({ navigation, route }) => {
   const [statusTitle, setStatusTitle] = useState(null);
   const { data: accountsByUser, refetch: refetchAccountsByUser } = useQuery(
     ["accountsByUser", data.userData.id],
-    () => getAccountsByUser(user, dataUser.userId, data.userData.id),
+    () => getAccountsByUser(dataUser.userId, data.userData.id),
     { enabled: !!dataUser }
   );
 
   const onValidateDestinatary = async (item) => {
     try {
       const validation = await validateDestinatary(
-        user,
         item.accountId,
         dataUser.userId,
         data.userData.id
@@ -104,7 +102,11 @@ const SelectOriginAccountWallet = ({ navigation, route }) => {
                     </View>
                     <View style={styles.authAccountsBalance}>
                       <Text style={{ textAlign: "right" }}>
-                        {item.availableBalance}
+                        <Image
+                          source={freemonipesos}
+                          style={{ width: 15, height: 15 }}
+                        />{" "}
+                        {parseAmounts(item.availableBalance.toFixed(2))}
                       </Text>
                     </View>
                   </View>

@@ -59,17 +59,17 @@ const CustomDrawerContent = props => {
             )}
             onPress={() => handleLink('https://freemoni.com/legales/')}
           /> */}
-        {/*  <DrawerItem
-            labelStyle={{
-              fontSize: 16,
-              color: THEME.colors.white,
-            }}
-            label="Ayuda"
-            icon={({focused, size}) => (
-              <Ionicon name="help" size={28} color={THEME.colors.white} />
-            )}
-            onPress={() => handleLink('https://freemoni.com/ayuda/')}
-          /> */}
+        <DrawerItem
+          labelStyle={{
+            fontSize: 16,
+            color: THEME.colors.white,
+          }}
+          label="Ayuda"
+          icon={({focused, size}) => (
+            <Ionicon name="help" size={28} color={THEME.colors.white} />
+          )}
+          onPress={() => handleLink('https://freemoni.com/ayuda/')}
+        />
       </View>
       <View>
         <View style={styles.footerItemContainer}>

@@ -1,31 +1,46 @@
-import React, { useState } from "react";
-import { Alert, StyleSheet, View, TextInput, Text, Image } from "react-native";
-import { Button, Icon, Input } from "react-native-elements";
-import styles from "./styles";
+import React, {useState} from 'react';
+import {Alert, StyleSheet, View, TextInput, Text, Image} from 'react-native';
+import {Button, Icon, Input} from 'react-native-elements';
+import styles from './styles';
 // import { sendEmailResetPassword } from "../../utils/actions";
 // import { validateEmail } from "../../utils/helpers";
-import logo from "../../../assets/cropped-logo-blanco.png";
+import logo from '../../../assets/cropped-logo-blanco.png';
 // import Loading from "../../components/Loading";
-import PopUp from "../../components/PopUp";
-import AlertMaintenance from "../../components/Alert/AlertMaintenance";
-export default function RecoverPassword({ navigation }) {
+import PopUp from '../../components/PopUp';
+import AlertMaintenance from '../../components/Alert/AlertMaintenance';
+import auth from '@react-native-firebase/auth';
+export default function RecoverPassword({navigation}) {
   const [alertMaintenance, setAlertMaintenance] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [errorEmail, setErrorEmail] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // const validateData = () => {
-  //   setErrorEmail(null);
-  //   let valid = true;
-  //   console.log("email", email);
-
-  //   if (!validateEmail(email)) {
-  //     setErrorEmail("Debes ingresar un email válido.");
-  //     valid = false;
-  //   }
-
-  //   return valid;
-  // };
+  const recoverPassword = () => {
+    if (email.trim() === '') {
+      Alert.alert(
+        'Introduzca un usuario',
+        'Por favor, introduzca un usuario válido para continuar el proceso de recupero de contraseña.',
+        [{text: 'Aceptar', onPress: () => console.log('OK Pressed')}],
+      );
+      return;
+    }
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert(
+          'Confirmación',
+          'Se ha enviado un email con las instrucciones necesarias para recuperar la contraseña.',
+          [{text: 'Aceptar', onPress: () => console.log('OK Pressed')}],
+        );
+      })
+      .catch(() => {
+        Alert.alert(
+          'Ocurrió un error',
+          'Verifique que el usuario introducido es correcto.',
+          [{text: 'Aceptar', onPress: () => console.log('OK Pressed')}],
+        );
+      });
+  };
 
   // const onSubmit = async () => {
   //   if (!validateData()) {
@@ -58,7 +73,7 @@ export default function RecoverPassword({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder="Ingresa tu email..."
-            onChange={(e) => setEmail(e.nativeEvent.text)}
+            onChange={e => setEmail(e.nativeEvent.text)}
             keyboardType="email-address"
             value={email}
           />
@@ -71,23 +86,21 @@ export default function RecoverPassword({ navigation }) {
         title="Recuperar Contraseña"
         containerStyle={styles.btnContainer}
         buttonStyle={styles.btn}
-        onPress={() => setAlertMaintenance(true)}
+        onPress={recoverPassword}
       />
       <PopUp visible={alertMaintenance}>
         <AlertMaintenance setAlertMaintenance={setAlertMaintenance} />
       </PopUp>
       <View style={styles.accountExistContainer}>
         <Text style={styles.accountExistText}>
-          ¿Ya tienes cuenta?{" "}
+          ¿Ya tienes cuenta?{' '}
           <Text
-            onPress={() => navigation.navigate("Login")}
-            style={styles.accountExistTextHighlighted}
-          >
+            onPress={() => navigation.navigate('Login')}
+            style={styles.accountExistTextHighlighted}>
             Iniciar sesión
           </Text>
         </Text>
       </View>
-      {/* <Loading isVisible={loading} text="Recuperando contraseña..." /> */}
     </View>
   );
 }

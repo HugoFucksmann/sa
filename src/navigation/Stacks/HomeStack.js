@@ -10,8 +10,6 @@ import PaymentCode from '../../screens/paymentCode';
 import TransactionsOrders from '../../screens/TransactionsOrders';
 import ReceiveFreemoni from '../../screens/receiveFreemoni';
 import SendFreemoniDestinataryCode from '../../screens/sendFreemoniDestinataryCode';
-import SelectOriginAccount from '../../screens/selectOriginAccount';
-import EnterAmount from '../../screens/enterAmount';
 import SelectOriginAccountWallet from '../../screens/selectOriginAccountWallet';
 import SelectDestinatary from '../../screens/selectDestinatary';
 import EnterAmountWallet from '../../screens/enterAmountWallet';
@@ -21,10 +19,8 @@ import Transactions from '../../screens/transactions';
 import ScanQrReceive from '../../screens/scanQrReceive';
 import ScannedQrReceive from '../../screens/scannedQrReceive';
 import ScanQrSendFreemoni from '../../screens/scanQrSendFreemoni';
-import BusinessList from '../../screens/BusinessList';
-import InfoBusiness from '../../screens/infoBusiness';
-// import Cronipesos from "../../screens/cronipesos";
-// import Modal from "../../components/Modal";
+import AllBusiness from '../../screens/allBusiness';
+import BusinessAllDetails from '../../screens/businessAllDetails';
 
 const Stack = createStackNavigator();
 
@@ -135,25 +131,8 @@ const HomeStack = () => {
           }}
         />
         <Stack.Screen
-          name="PartnerShops2"
-          component={PartnerShops}
-          options={{
-            title: 'Negocios cercanos',
-            header: ({navigation, route, options}) => {
-              const title = getHeaderTitle(options, route.name);
-              return (
-                <HeaderDefault
-                  title={title}
-                  style={options.headerStyle}
-                  navigation={navigation}
-                />
-              );
-            },
-          }}
-        />
-        <Stack.Screen
           name="PartnerShops"
-          component={BusinessList}
+          component={PartnerShops}
           options={{
             title: 'Negocios cercanos',
             header: ({navigation, route, options}) => {
@@ -170,26 +149,9 @@ const HomeStack = () => {
         />
         <Stack.Screen
           name="CreateOrder"
-          component={PartnerShops}
+          component={CreateOrder}
           options={{
             title: 'Crear orden',
-            header: ({navigation, route, options}) => {
-              const title = getHeaderTitle(options, route.name);
-              return (
-                <HeaderDefault
-                  title={title}
-                  style={options.headerStyle}
-                  navigation={navigation}
-                />
-              );
-            },
-          }}
-        />
-        <Stack.Screen
-          name="InfoBusiness"
-          component={InfoBusiness}
-          options={{
-            title: 'Detalles del negocio',
             header: ({navigation, route, options}) => {
               const title = getHeaderTitle(options, route.name);
               return (
@@ -224,6 +186,40 @@ const HomeStack = () => {
           component={Transactions}
           options={{
             title: 'Transacciones',
+            header: ({navigation, route, options}) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <HeaderDefault
+                  title={title}
+                  style={options.headerStyle}
+                  navigation={navigation}
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
+          name="AllBusiness"
+          component={AllBusiness}
+          options={{
+            title: 'Negocios',
+            header: ({navigation, route, options}) => {
+              const title = getHeaderTitle(options, route.name);
+              return (
+                <HeaderDefault
+                  title={title}
+                  style={options.headerStyle}
+                  navigation={navigation}
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
+          name="BusinessAllDetails"
+          component={BusinessAllDetails}
+          options={{
+            title: 'Detalles del negocio',
             header: ({navigation, route, options}) => {
               const title = getHeaderTitle(options, route.name);
               return (

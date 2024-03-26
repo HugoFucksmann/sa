@@ -3,19 +3,21 @@ import React, { useState } from "react";
 import styles from "./styles";
 import Button from "../../components/Button";
 import useAppContext from "../../context/useAppContext";
-import { checkIfUserExist } from "../../services";
+import { checkIfUserExist, validateDestinatary } from "../../services";
 import Loader from "../../components/Loader";
 import PopUp from "../../components/PopUp";
 import AlertStatus from "../../components/Alert/AlertStatus";
 import ERRORS from "../../utils/constants/errors";
 
-const SendFreemoniDestinataryCode = ({ navigation }) => {
+const SendFreemoniFromBusiness = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(null);
   const [statusTitle, setStatusTitle] = useState(null);
+  const { id, details } = route.params;
   const { dataUser } = useAppContext();
   const [text, setText] = useState("");
+  console.log(id, details);
   const onChangeText = (text) => {
     setText(text);
   };
@@ -23,9 +25,24 @@ const SendFreemoniDestinataryCode = ({ navigation }) => {
     try {
       setLoading(true);
       const data = await checkIfUserExist({ freemoniCode: text });
-      console.log(data)
+      console.log("data", data);
+      const validation = await validateDestinatary(
+        details.accountId,
+        dataUser.userId,
+        data.userData.id
+      );
+
+      if (validation?.length > 0) {
+        navigation.navigate("EnterAmount", {
+          validation,
+          dataUser,
+          account: {
+            availableBalance: details.balance,
+            accountId: details.accountId,
+          },
+        });
+      }
       setLoading(false);
-      navigation.navigate("SelectOriginAccount", { data });
     } catch (error) {
       setLoading(false);
       if (error.data?.moreInfo?.errors[0]?.msg in ERRORS) {
@@ -38,6 +55,25 @@ const SendFreemoniDestinataryCode = ({ navigation }) => {
       setStatusTitle("¡Ocurrió un error!");
       setVisible(true);
       return;
+    }
+  };
+
+  const onValidateDestinatary = async (item) => {
+    try {
+      const validation = await validateDestinatary(
+        item.accountId,
+        dataUser.userId,
+        data.userData.id
+      );
+      if (validation?.length > 0) {
+        navigation.navigate("EnterAmount", {
+          validation,
+          dataUser,
+          account: item,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -74,4 +110,4 @@ const SendFreemoniDestinataryCode = ({ navigation }) => {
   );
 };
 
-export default SendFreemoniDestinataryCode;
+export default SendFreemoniFromBusiness;
